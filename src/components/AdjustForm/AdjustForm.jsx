@@ -65,7 +65,7 @@ const AdjustForm = () => {
       const data = await res.json()
       setImage(data.dataUrl)
     } catch (error) {
-      setError(error)
+      setError(error.message)
     }
   }, [brightness, lightness, hue, saturation, setImage, url, setError])
 
