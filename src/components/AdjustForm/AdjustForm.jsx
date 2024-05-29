@@ -59,11 +59,13 @@ const AdjustForm = () => {
     }
     try {
       const res = await fetch(url, fetchOptions)
+      if (!res.ok) {
+        throw new Error('Error adjusting image')
+      }
       const data = await res.json()
       setImage(data.dataUrl)
     } catch (error) {
-      console.error(error)
-      setError('Error adjusting image')
+      setError(error)
     }
   }, [brightness, lightness, hue, saturation, setImage, url, setError])
 
