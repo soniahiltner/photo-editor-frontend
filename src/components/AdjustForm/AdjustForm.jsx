@@ -18,7 +18,8 @@ const AdjustForm = () => {
     setSaturation,
     editDone,
     setEditDone,
-    setError
+    setError,
+    setLoading
   } = useImage()
 
   const url = `${import.meta.env.VITE_API_URL}/api/image/adjust/${filename}`
@@ -57,6 +58,7 @@ const AdjustForm = () => {
         saturation
       })
     }
+    setLoading(true)
     try {
       const res = await fetch(url, fetchOptions)
       if (!res.ok) {
@@ -64,10 +66,12 @@ const AdjustForm = () => {
       }
       const data = await res.json()
       setImage(data.dataUrl)
+      setLoading(false)
     } catch (error) {
       setError(error.message)
+      setLoading(false)
     }
-  }, [brightness, lightness, hue, saturation, setImage, url, setError])
+  }, [brightness, lightness, hue, saturation, setImage, url, setError, setLoading])
 
   // handle submit on change
   const handleChange = (event) => {

@@ -8,18 +8,14 @@ import fliph from '../../assets/fliph.svg'
 
 const Flip = () => {
 
-  const {
-    filename,
-    setImage,
-    setError
-  } = useImage()
+  const { filename, setImage, setError, setLoading } = useImage()
 
   const url = `${import.meta.env.VITE_API_URL}/api/image/flip/${filename}`
   
   const [flipV, setFlipV] = useState(false)
   const [flop, setFlop] = useState(false)
   
-  const { isError, data, postData } = usePostFecht(url, { flipV, flop }, 'Error flipping image')
+  const { isError, data, postData, isLoading } = usePostFecht(url, { flipV, flop }, 'Error flipping image')
 
   // flip image
   const flipImage = () => {
@@ -43,6 +39,7 @@ const Flip = () => {
 
   }
 
+  // handle response
   useEffect(() => {
     if (data) {
       setImage(data.dataUrl)
@@ -51,11 +48,17 @@ const Flip = () => {
     }
   }, [data, setImage, setFlipV, setFlop])
  
+  // handle error
   useEffect(() => {
     if (isError) {
       setError(isError.message)
     }
   }, [isError, setError])
+
+  // handle loading
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
 
 
   return (

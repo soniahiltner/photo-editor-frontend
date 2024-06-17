@@ -42,9 +42,6 @@ export const ImageProvider = ({ children }) => {
   // State for rotating
   const [degrees, setDegrees] = useState(0)
 
-  // State for flipping
-  const [flipPosition, setFlipPosition] = useState('original')
-  const [flopPosition, setFlopPosition] = useState('original')
 
   // State for adjusting
   const [brightness, setBrightness] = useState(0)
@@ -216,10 +213,6 @@ export const ImageProvider = ({ children }) => {
         setQuality,
         degrees,
         setDegrees,
-        flipPosition,
-        setFlipPosition,
-        flopPosition,
-        setFlopPosition,
         brightness,
         setBrightness,
         lightness,

@@ -20,6 +20,7 @@ const FramesForm = () => {
     setWidth,
     setHeight,
     setError,
+    setLoading,
     width,
     height
   } = useImage()
@@ -38,7 +39,8 @@ const FramesForm = () => {
     'orange'
   ]
   // sizes not allowed if keepSize is yes
-  const invalidSize = (size >= width / 2 || size >= height / 2) && keepSize === 'yes'
+  const invalidSize =
+    (size >= width / 2 || size >= height / 2) && keepSize === 'yes'
 
   const body = {
     size,
@@ -46,7 +48,7 @@ const FramesForm = () => {
     keepSize
   }
 
-  const { isError, data, postData } = usePostFecht(
+  const { isError, data, postData, isLoading } = usePostFecht(
     url,
     body,
     'Error applying frame'
@@ -83,6 +85,7 @@ const FramesForm = () => {
     fetchData()
   }
 
+  // Handle response
   useEffect(() => {
     if (data) {
       setImage(data.dataUrl)
@@ -92,11 +95,17 @@ const FramesForm = () => {
     }
   }, [data, setImage, setWidth, setHeight, setEditDone])
 
+  // Handle error
   useEffect(() => {
     if (isError) {
       setError(isError.message)
     }
   }, [isError, setError])
+
+  // Handle loading
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
 
   return (
     <form
@@ -112,7 +121,9 @@ const FramesForm = () => {
               name='size'
               value={size}
               onChange={handleChange}
-              disabled={keepSize === 'yes' && (size >= width / 2 || size >= height / 2)}
+              disabled={
+                keepSize === 'yes' && (size >= width / 2 || size >= height / 2)
+              }
             />
           ))}
         </div>

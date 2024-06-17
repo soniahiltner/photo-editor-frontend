@@ -7,7 +7,7 @@ import styles from './Header.module.css'
 
 const Header = () => {
 
-  const { error, success, successMessage} = useImage()
+  const { error, success, successMessage, loading } = useImage()
   return (
     <header className={styles.header}>
       <h1>Photo Editor</h1>
@@ -20,13 +20,18 @@ const Header = () => {
       </div>
 
       {error && (
-        <div className={styles.errorContainer}>
+        <div className={styles.messageContainer}>
           <Message message={error} />
         </div>
       )}
       {success && (
-        <div className={styles.errorContainer}>
+        <div className={styles.messageContainer}>
           <Message message={successMessage} />
+        </div>
+      )}
+      {loading && (
+        <div className={styles.messageContainer}>
+          <Message message={`Loading...`} />
         </div>
       )}
     </header>

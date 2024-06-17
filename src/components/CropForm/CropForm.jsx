@@ -14,12 +14,13 @@ const CropForm = () => {
     setCoordinates,
     setCroppedImage,
     handleClose,
-    setError
+    setError,
+    setLoading
   } = useImage()
 
   const url = `${import.meta.env.VITE_API_URL}/api/image/crop/${filename}`
 
-  const { isError, data, postData } = usePostFecht(
+  const { isError, data, postData, isLoading } = usePostFecht(
     url,
     coordinates,
     'Error cropping image'
@@ -40,6 +41,7 @@ const CropForm = () => {
     fetchData()
   }
 
+  // Handle response
   useEffect(() => {
     if (data) {
       setImage(data.dataUrl)
@@ -55,6 +57,11 @@ const CropForm = () => {
       setError(isError.message)
     }
   }, [isError, setError])
+
+  // Handle loading
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
 
   return (
     <div className={styles.form}>

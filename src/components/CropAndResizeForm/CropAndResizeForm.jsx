@@ -3,8 +3,6 @@ import { useImage } from '../../hooks/useImage'
 import InputRadio from '../InputRadio/InputRadio'
 import ResultsOptions from '../ResultsOptions/ResultsOptions'
 import styles from './CropAndResizeForm.module.css'
-
-import Loader from '../Loader/Loader'
 import { usePostFecht } from '../../hooks/usePostFetch'
 
 const CropAndResizeForm = () => {
@@ -24,7 +22,6 @@ const CropAndResizeForm = () => {
     cropOption,
     setCropOption,
     setError,
-    loading,
     setLoading
   } = useImage()
 
@@ -201,7 +198,6 @@ const CropAndResizeForm = () => {
         </button>
       )}
       {editDone && <ResultsOptions />}
-      {loading && <Loader />}
     </form>
   )
 }

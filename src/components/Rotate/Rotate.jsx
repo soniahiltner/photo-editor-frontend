@@ -13,12 +13,13 @@ const Rotate = () => {
     setHeight,
     degrees,
     setDegrees,
-    setError
+    setError,
+    setLoading
   } = useImage()
 
   const url = `${import.meta.env.VITE_API_URL}/api/image/rotate/${filename}`
 
-  const { isError, data, postData } = usePostFecht(url, { degrees }, 'Error rotating image')
+  const { isError, data, postData, isLoading } = usePostFecht(url, { degrees }, 'Error rotating image')
 
   // Rotate right
   const rotateRight = () => {
@@ -38,6 +39,7 @@ const Rotate = () => {
     fetchData()
   }
 
+  // handle response
   useEffect(() => {
     if (data) {
       setImage(data.dataUrl)
@@ -47,11 +49,17 @@ const Rotate = () => {
     }
   }, [data, setImage, setWidth, setHeight, setDegrees])
 
+  // handle error
   useEffect(() => {
     if (isError) {
       setError(isError.message)
     }
   }, [isError, setError])
+
+  // handle loading
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
 
   return (
     <div className={styles.container}>

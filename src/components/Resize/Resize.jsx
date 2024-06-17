@@ -24,7 +24,8 @@ const Resize = () => {
     percentageValue,
     setPercentageValue,
     setEditDone,
-    setError
+    setError,
+    setLoading
   } = useImage()
 
   const url = `${import.meta.env.VITE_API_URL}/api/image/resize/${filename}`
@@ -41,7 +42,11 @@ const Resize = () => {
     percentageValue
   }
 
-  const { isError, data, postData } = usePostFecht(url, body, 'Error resizing image')
+  const { isError, data, postData, isLoading } = usePostFecht(
+    url,
+    body,
+    'Error resizing image'
+  )
 
   // set initial width and height
   useEffect(() => {
@@ -53,8 +58,15 @@ const Resize = () => {
       setNewHeight(originalHeight)
     }
     setPercentageValue(100)
-  }, [originalWidth, originalHeight,setPercentageValue, setNewHeight, setNewWidth, height, width])
-
+  }, [
+    originalWidth,
+    originalHeight,
+    setPercentageValue,
+    setNewHeight,
+    setNewWidth,
+    height,
+    width
+  ])
 
   // handle input changes
   function handleWidthChange(event) {
@@ -79,7 +91,9 @@ const Resize = () => {
       setNewWidth(
         Math.round(originalWidth * (event.target.value / originalHeight))
       )
-      setPercentageValue(Math.round((event.target.value / originalHeight) * 100))
+      setPercentageValue(
+        Math.round((event.target.value / originalHeight) * 100)
+      )
     }
   }
 
@@ -113,7 +127,15 @@ const Resize = () => {
       setSuccess(true)
       setSuccessMessage('Image resized successfully')
     }
-  }, [data, setImage, setWidth, setHeight, setEditDone, setSuccess, setSuccessMessage])
+  }, [
+    data,
+    setImage,
+    setWidth,
+    setHeight,
+    setEditDone,
+    setSuccess,
+    setSuccessMessage
+  ])
 
   // set error message
   useEffect(() => {
@@ -122,6 +144,11 @@ const Resize = () => {
     }
   }, [isError, setError])
   
+  // set loading
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
+
   return (
     <div className={styles.container}>
       <HeaderEditForm title='Resize' />
@@ -165,8 +192,6 @@ const Resize = () => {
           span='%'
         />
       )}
-      
-      
     </div>
   )
 }

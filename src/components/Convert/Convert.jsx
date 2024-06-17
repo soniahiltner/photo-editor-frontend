@@ -18,7 +18,8 @@ const Convert = () => {
     setFormat,
     quality,
     setQuality,
-    setError
+    setError,
+    setLoading
   } = useImage()
 
   const url = `${import.meta.env.VITE_API_URL}/api/image/convert/${filename}`
@@ -28,7 +29,7 @@ const Convert = () => {
     quality
   }
 
-  const { isError,data, postData } = usePostFecht(
+  const { isError, data, postData, isLoading } = usePostFecht(
     url,
     body,
     'Error converting image'
@@ -53,13 +54,17 @@ const Convert = () => {
     }
   }, [data, setImage, setFilename, setSuccess, setEditDone])
 
-
   // Handle error
   useEffect(() => {
     if (isError) {
       setError(isError.message)
     }
   }, [isError, setError])
+
+  // Handle loading
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
 
   // Handle input change
   function handleChange(event) {
@@ -169,7 +174,6 @@ const Convert = () => {
         </button>
       </form>
       {success && <Message message='Image converted successfully!' />}
-      
     </div>
   )
 }
